@@ -105,7 +105,7 @@ export function parseProject(input: unknown): Project {
     return {
       id: s.id,
       pitch: Math.round(clamp(s.pitch as number, 0, 127)),
-      velocity: Math.round(clamp(s.velocity as number, 1, 127)),
+      velocity: Math.round(clamp(s.velocity as number, 0, 127)),
       duration: Math.round(clamp(s.duration as number, 60, 3840)),
     };
   });

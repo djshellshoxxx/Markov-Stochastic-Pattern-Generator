@@ -179,6 +179,7 @@ setInterval(() => {
   if (
     useStore.getState().playing &&
     useStore.getState().project.config.sync === "midi" &&
+    midiActive &&
     lastMidiAt &&
     performance.now() - lastMidiAt > 2000
   ) {

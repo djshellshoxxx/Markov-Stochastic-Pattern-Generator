@@ -49,7 +49,8 @@ self.onmessage = (event: MessageEvent<WorkerInput>) => {
     running = true;
     externalTick = 0;
     externalRunning = false;
-    let at = m.at;
+    // Initial worker fetch/compilation may outlast the requested lead time.
+    let at = Math.max(m.at, now() + 40);
     if (scheduler.project.config.sync === "link" && link) {
       const beat = link.beat + ((at - link.at) * link.bpm) / 60000;
       at += ((Math.ceil(beat) - beat) * 60000) / link.bpm;

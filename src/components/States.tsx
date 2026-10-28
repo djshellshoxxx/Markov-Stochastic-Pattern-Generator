@@ -59,12 +59,12 @@ export function States() {
               <input
                 aria-label={`State ${s.id} velocity`}
                 type="number"
-                min="1"
+                min="0"
                 max="127"
                 value={s.velocity}
                 onChange={(e) =>
                   update(i, {
-                    velocity: Math.round(clamp(Number(e.target.value), 1, 127)),
+                    velocity: Math.round(clamp(Number(e.target.value), 0, 127)),
                   })
                 }
               />

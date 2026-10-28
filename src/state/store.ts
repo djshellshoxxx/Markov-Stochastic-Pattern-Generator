@@ -219,14 +219,34 @@ useStore.subscribe((state, previous) => {
     a.matrix === b.matrix &&
     a.secondOrder === b.secondOrder;
   if (!restoring && !externalTempoOnly) {
+    const oldMatrix =
+      a.config.order === 1 ? a.matrix : a.secondOrder[state.context];
+    const newMatrix =
+      b.config.order === 1 ? b.matrix : b.secondOrder[state.context];
+    const bulkMatrix =
+      newMatrix?.filter((row, i) => row !== oldMatrix?.[i]).length > 1;
     const key =
       a.name !== b.name
         ? `load:${performance.now()}`
         : configKeys.length
           ? `config:${configKeys.join(",")}`
           : a.states !== b.states
-            ? `states:${b.states.map((n, i) => (n !== a.states[i] ? i : "")).join(",")}`
-            : `matrix:${b.config.order}:${state.context}:${state.selected.join(",")}`;
+            ? `states:${b.states
+                .map((n, i) =>
+                  n !== a.states[i]
+                    ? `${i}:${Object.keys(n)
+                        .filter(
+                          (k) =>
+                            n[k as keyof MarkovState] !==
+                            a.states[i]?.[k as keyof MarkovState],
+                        )
+                        .join(",")}`
+                    : "",
+                )
+                .join(";")}`
+            : bulkMatrix
+              ? `bulk-matrix:${performance.now()}`
+              : `matrix:${b.config.order}:${state.context}:${state.selected.join(",")}`;
     history.record(a, b, key, performance.now());
     useStore.setState({
       canUndo: history.past.length > 0,

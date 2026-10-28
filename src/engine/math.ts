@@ -115,13 +115,15 @@ export function velocity(
       : config.velocityCurve === "soft"
         ? 0.65 + random() * 0.25
         : 1;
-  return Math.round(
+  const varied = Math.round(
     clamp(
       base * curve + (random() * 2 - 1) * config.velocityVariation * 48,
       1,
       127,
     ),
   );
+  // Still consume the random draws so a rest doesn't change the RNG stream.
+  return base === 0 ? 0 : varied;
 }
 export function swingOffset(step: number, bpm: number, swing: number): number {
   return step % 2 ? (60000 / bpm / 4) * swing : 0;

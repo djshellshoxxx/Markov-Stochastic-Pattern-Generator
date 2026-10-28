@@ -33,7 +33,7 @@ Link requests a timing snapshot every 100 ms; the relay returns beat, BPM, peers
 
 ## Note model and bounds
 
-Pitch is 0–127; default velocity 1–127; duration 60–3840 ticks (960 ticks per quarter). Velocity-zero generated events denote rests for visual timing and are never sent as note-ons. There are 2–12 states. BPM is bounded to 30–300. EDO supports 5–53 divisions, rooted at the selected pitch class. Microtonal note durations are clipped below the shortest swung step because channel-wide pitch bend cannot tune overlapping pitches independently.
+Pitch is 0–127; default velocity 0–127 (zero is a rest); duration 60–3840 ticks (960 ticks per quarter). Velocity-zero generated events denote rests for visual timing and are never sent as note-ons. There are 2–12 states. BPM is bounded to 30–300. EDO supports 5–53 divisions, rooted at the selected pitch class. Microtonal note durations are clipped below the shortest swung step because channel-wide pitch bend cannot tune overlapping pitches independently.
 
 ## Persistence and lifecycle
 

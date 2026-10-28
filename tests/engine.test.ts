@@ -121,3 +121,15 @@ test("import validates matrix dimensions, normalizes weights and resets device s
     parseProject({ ...p, states: p.states.map(() => p.states[0]) }),
   );
 });
+
+test("velocity-zero states remain rests under variation and survive project import", () => {
+  const p = makePreset();
+  p.states.forEach((s) => (s.velocity = 0));
+  p.config.density = 1;
+  p.config.velocityVariation = 1;
+  const loaded = parseProject(p);
+  assert.ok(loaded.states.every((s) => s.velocity === 0));
+  const clock = new Scheduler(loaded);
+  clock.reset(0);
+  assert.ok(clock.collect(0, 1000).notes.every((n) => n.velocity === 0));
+});
