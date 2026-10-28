@@ -4,6 +4,8 @@ A browser instrument for controlled chance: shape a Markov transition matrix int
 
 **App:** https://djshellshoxxx.github.io/Markov-Stochastic-Pattern-Generator/
 
+![MARKOV app while playing: transition matrix, live state network graph and generative rule controls (first order, Dorian, 112 BPM)](docs/preview.jpg)
+
 ## Play
 
 1. Press **Play** (or Space away from a form control). No MIDI device is needed.
@@ -41,9 +43,9 @@ Node.js 22.18+ (Node 24 used for validation).
 ```sh
 npm ci
 npm run dev
-npm test
-npm run build
-npm run test:worker
+npm test              # engine, extension and MIDI tests (19)
+npm run build         # type-check + production build into dist/
+npm run test:worker   # tests the bundled worker; run after build
 npm run preview
 ```
 
