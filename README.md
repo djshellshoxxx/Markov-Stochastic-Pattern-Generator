@@ -4,9 +4,12 @@ A browser instrument for controlled chance: shape a Markov transition matrix int
 
 **App:** https://djshellshoxxx.github.io/Markov-Stochastic-Pattern-Generator/
 
+**[CDL home](https://djshellshoxxx.github.io/circuitdriftlabs/)**
+
 ## Play
 
 1. Press **Play** (or Space away from a form control). No MIDI device is needed.
+   If a saved patch has its synth off or volume at zero and no MIDI output is connected, Play restores audible synth settings. **Test sound** plays a 440 Hz tone independently of the sequencer and enables the internal synth. The transport shows whether the synth is on or muted.
 2. Select a matrix cell and move **Transition probability**. Its row stays normalized.
 3. Switch to **2nd order** to edit conditional probabilities for each previous/current pair.
 4. Adjust entropy, root/scale, swing, note density, velocity curves, gate, and note states.

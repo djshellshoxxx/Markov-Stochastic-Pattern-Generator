@@ -4,15 +4,18 @@ export class AudioEngine {
   master?: GainNode;
   voices = new Set<OscillatorNode>();
   async initialize() {
-    if (!this.context) {
+    if (!this.context || this.context.state === "closed") {
       this.context = new AudioContext({ latencyHint: "interactive" });
       this.master = this.context.createGain();
+      this.master.gain.value = 0;
       const limiter = this.context.createDynamicsCompressor();
       limiter.threshold.value = -12;
       limiter.ratio.value = 12;
       this.master.connect(limiter).connect(this.context.destination);
     }
     await this.context.resume();
+    if (this.context.state !== "running")
+      throw new Error("Audio is paused. Click Play or Test sound to enable it.");
   }
   volume(value: number) {
     if (this.context && this.master)

@@ -22,6 +22,8 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run test:worker
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:audio
       - name: Install relay protocol test dependencies
         run: npm ci --prefix relay --omit=optional --ignore-scripts
       - run: npm test --prefix relay

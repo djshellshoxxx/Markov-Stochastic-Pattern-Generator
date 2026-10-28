@@ -1386,3 +1386,6 @@ kbd {
     gap: 12px;
   }
 }
+
+.cdl-home{color:var(--text,#dce3eb);font-size:12px;white-space:nowrap;text-decoration:none}.cdl-home:hover{text-decoration:underline}
+.sound-check{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0 12px;font-size:12px;color:var(--muted,#a0aab6)}

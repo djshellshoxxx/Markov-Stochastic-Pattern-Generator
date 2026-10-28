@@ -2,6 +2,7 @@ import { AudioEngine } from "./audio";
 import { MidiEngine } from "./midi";
 import { LinkClient } from "./link";
 import { useStore } from "../state/store";
+import { defaultConfig } from "../state/project";
 import type { NoteEvent, WorkerInput, WorkerOutput } from "./types";
 import { beginCapture, endCapture, recordNote } from "../state/capture";
 export const audio = new AudioEngine();
@@ -86,6 +87,14 @@ export async function start() {
   starting = true;
   const token = ++run;
   try {
+    const initial = useStore.getState().project.config;
+    // A saved MIDI-only/zero-volume patch must not silently play with no output.
+    const restored = midi.output?.state !== "connected" &&
+      (!initial.monitor || initial.volume === 0);
+    if (restored) useStore.getState().configure({
+      monitor: true,
+      volume: initial.volume > 0 ? initial.volume : defaultConfig.volume,
+    });
     const c = useStore.getState().project.config;
     if (c.sync === "midi" && !midi.input)
       throw new Error("Connect MIDI and choose a clock input first.");
@@ -111,7 +120,8 @@ export async function start() {
       step: -1,
       late: 0,
       message:
-        c.sync === "midi" ? "Armed · waiting for MIDI Start / Continue." : "",
+        c.sync === "midi" ? "Armed · waiting for MIDI Start / Continue." :
+          restored ? "Internal synth enabled — restored audible output for this patch." : "",
     });
     send({ type: "project", project: useStore.getState().project });
     send({ type: "start", at, run });
@@ -125,6 +135,22 @@ export async function start() {
     message(error instanceof Error ? error.message : "Unable to start audio.");
   } finally {
     starting = false;
+  }
+}
+export async function testSound() {
+  try {
+    await audio.initialize();
+    const config = useStore.getState().project.config;
+    const volume = config.volume > 0 ? config.volume : defaultConfig.volume;
+    useStore.getState().configure({ monitor: true, volume });
+    audio.volume(volume);
+    audio.note({
+      at: performance.timeOrigin + performance.now() + 30,
+      durationMs: 700, pitch: 69, velocity: 110, state: 0, previous: 0, step: 0,
+    }, { ...config, monitor: true, volume, waveform: "sine" });
+    message("Playing a 440 Hz test tone. If silent, check this tab's mute and your selected system output.");
+  } catch (error) {
+    message(error instanceof Error ? error.message : "Unable to start audio.");
   }
 }
 export function stop() {
