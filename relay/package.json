@@ -1,0 +1,7 @@
+{
+  "name": "markov-link-relay", "private": true, "version": "1.0.0", "type": "module",
+  "scripts": { "start": "node server.mjs", "test": "node --test relay.test.mjs" },
+  "dependencies": { "ws": "^8.18.3" },
+  "optionalDependencies": { "@ktamas77/abletonlink": "1.2.3" },
+  "engines": { "node": ">=22.18.0" }
+}
