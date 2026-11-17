@@ -6,6 +6,8 @@ A browser instrument for controlled chance: shape a Markov transition matrix int
 
 **[CDL home](https://djshellshoxxx.github.io/circuitdriftlabs/)**
 
+![MARKOV transition matrix and live state graph during playback](docs/preview.jpg)
+
 ## Play
 
 1. Press **Play** (or Space away from a form control). No MIDI device is needed.
@@ -46,7 +48,7 @@ npm ci
 npm run dev
 npm test
 npm run build
-npm run test:worker
+npm run test:worker   # reads the worker produced by the preceding build
 npm run preview
 ```
 
