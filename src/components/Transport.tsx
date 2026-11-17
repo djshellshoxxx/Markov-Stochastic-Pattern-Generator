@@ -1,7 +1,7 @@
 import { Play, Square, Radio, Volume2, AudioLines } from "lucide-react";
 import { useRef } from "react";
 import { useStore } from "../state/store";
-import { start, stop } from "../engine/runtime";
+import { start, stop, testSound } from "../engine/runtime";
 import { clamp } from "../engine/math";
 export function Transport() {
   const config = useStore((s) => s.project.config),
@@ -25,6 +25,7 @@ export function Transport() {
       });
   }
   return (
+    <>
     <section className="transport" aria-label="Transport">
       <div className="transport-buttons">
         <button
@@ -106,7 +107,7 @@ export function Transport() {
           onChange={(e) => configure({ monitor: e.target.checked })}
         />
         <AudioLines size={17} />
-        <span>Monitor</span>
+        <span>Internal synth</span>
       </label>
       <label className="master-volume">
         <Volume2 size={17} />
@@ -121,5 +122,12 @@ export function Transport() {
         />
       </label>
     </section>
+    <div className="sound-check">
+      <button className="subtle-button" onClick={() => void testSound()}>Test sound</button>
+      <span role="status">{!config.monitor ? "Internal synth is off — MIDI only" :
+        config.volume === 0 ? "Internal synth is muted — volume is zero" :
+        "Internal synth on · " + Math.round(config.volume / 0.8 * 100) + "% volume"}</span>
+    </div>
+    </>
   );
 }

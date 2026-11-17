@@ -4,11 +4,14 @@ A browser instrument for controlled chance: shape a Markov transition matrix int
 
 **App:** https://djshellshoxxx.github.io/Markov-Stochastic-Pattern-Generator/
 
-![MARKOV app while playing: transition matrix, live state network graph and generative rule controls (first order, Dorian, 112 BPM)](docs/preview.jpg)
+**[CDL home](https://djshellshoxxx.github.io/circuitdriftlabs/)**
+
+![MARKOV transition matrix and live state graph during playback](docs/preview.jpg)
 
 ## Play
 
 1. Press **Play** (or Space away from a form control). No MIDI device is needed.
+   If a saved patch has its synth off or volume at zero and no MIDI output is connected, Play restores audible synth settings. **Test sound** plays a 440 Hz tone independently of the sequencer and enables the internal synth. The transport shows whether the synth is on or muted.
 2. Select a matrix cell and move **Transition probability**. Its row stays normalized.
 3. Switch to **2nd order** to edit conditional probabilities for each previous/current pair.
 4. Adjust entropy, root/scale, swing, note density, velocity curves, gate, and note states.
@@ -43,9 +46,9 @@ Node.js 22.18+ (Node 24 used for validation).
 ```sh
 npm ci
 npm run dev
-npm test              # engine, extension and MIDI tests (19)
-npm run build         # type-check + production build into dist/
-npm run test:worker   # tests the bundled worker; run after build
+npm test
+npm run build
+npm run test:worker   # reads the worker produced by the preceding build
 npm run preview
 ```
 

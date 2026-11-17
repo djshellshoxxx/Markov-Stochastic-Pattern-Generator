@@ -98,6 +98,7 @@ export default function App() {
           <span className="version">v1.0</span>
         </div>
         <div className="header-actions">
+          <a className="cdl-home" href="https://djshellshoxxx.github.io/circuitdriftlabs/">← CDL home</a>
           <button
             className="icon-button"
             onClick={() => setShowHelp(true)}

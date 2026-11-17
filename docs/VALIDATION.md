@@ -25,3 +25,9 @@ Physical MIDI hardware/DAW loopback and a real multi-peer Ableton Link session a
 A native addon build was attempted but this environment's node-gyp header extraction failed with `TAR_ENTRY_ERROR EINVAL: invalid argument, fchown`. This is separate from the passing relay protocol test. The native relay needs compilation and verification on the user's machine, including TLS/browser local network access and peer discovery.
 
 The scheduler is best-effort browser timing. Tests do not establish a jitter-free or sample-accurate guarantee. An audio loopback measurement and a full assistive-technology audit were not performed.
+
+## Audio recovery regression (2026-10-28)
+
+A saved patch with monitor disabled and zero volume reproduced an advancing but silent transport in Chromium (peak 0). With the fix, Play enables local synthesis when no MIDI output is connected. A connected MIDI output retains intentional MIDI-only monitoring settings.
+
+`npm run test:audio` measures signal at the destination in the actual production build: fresh patch, saved mute, saved zero volume, and a 440 Hz test tone with density zero all produce bounded nonzero output. It also verifies Stop silences playback and Play recovers after a closed context. Run `npx playwright install chromium` first (or set `BROWSER_PATH`). This measures the browser signal, not the operating system speaker/headphone route.
